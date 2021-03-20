@@ -7,7 +7,7 @@ import "tachyons";
 
 export default function App() {
   return (
-    <div className="tc" style={{display: "block"}}>
+    <div className="center" style={{display: "block"}}>
     <h1>Tracking the ISS!</h1>
     <MapContainer 
     style={{width: "60%", height :'60vh'}} 
