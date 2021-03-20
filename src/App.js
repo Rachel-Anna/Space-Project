@@ -7,10 +7,11 @@ import "tachyons";
 
 export default function App() {
   return (
-    <div className="center" style={{display: "block"}}>
+    <div className="tc container"
+     style={{display: "block"}}>
     <h1>Tracking the ISS!</h1>
     <MapContainer 
-    style={{width: "60%", height :'60vh'}} 
+    id="map-container" 
     center={[51.505, -0.09]} 
     zoom={13} 
     scrollWheelZoom={false}>

@@ -1,3 +1,17 @@
 h1 {
   color: white;
 }
+
+#map-container {
+  width: 60%;
+  height: 60vh;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
