@@ -12,10 +12,12 @@ import ISS from "./ISS.png";
 
 export default function App() {
   const [coordinates, setCoordinates] = useState([8.82259, -2.8125]);
-  const [tracking, setTrackingStatus] = useState(true);
+  const [trackingStatus, setTrackingStatus] = useState(true);
+  const [trackingInterval, setTrackingInterval] = useState(15); // default 15 seconds
 
   const interval = useRef(null);
   const initialised = useRef(false);
+  const previousInterval = useRef(0);
 
   const moveISS = () => {
     fetch("http://localhost:3001/iss-now", {
@@ -26,6 +28,7 @@ export default function App() {
       .then((data) => {
         let lat = Number(data["iss_position"]["latitude"]);
         let lon = Number(data["iss_position"]["longitude"]);
+        console.log("Moving ISS");
         setCoordinates([lat, lon]);
       });
   };
@@ -53,13 +56,18 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (tracking) {
+    if (trackingStatus) {
+      if (previousInterval.current !== trackingInterval) {
+        clearInterval(interval.current);
+      }
+      previousInterval.current = trackingInterval;
       moveISS();
-      interval.current = setInterval(moveISS, 10000);
+      console.log(`Setting trackingInterval to: ${trackingInterval}s`);
+      interval.current = setInterval(moveISS, parseInt(trackingInterval) * 1000); // setInterval requires ms
     } else {
       clearInterval(interval.current);
     }
-  }, [tracking]);
+  }, [trackingStatus, trackingInterval]);
 
   const Panning = () => {
     const map = useMap();
@@ -75,7 +83,7 @@ export default function App() {
       initialised.current = true;
     }
     useMapEvent("click", ({ latlng }) => {
-      console.log("Clicked");
+      console.log(`Clicked: ${latlng}`);
       ISSPassTimes(map, latlng);
     });
     return null;
@@ -87,7 +95,13 @@ export default function App() {
   });
 
   const handleClick = () => {
-    setTrackingStatus(!tracking);
+    setTrackingStatus(!trackingStatus);
+  };
+
+  const handleDropdownClick = (event) => {
+    // set the interval in ms
+    console.log(event.target.value);
+    setTrackingInterval(event.target.value);
   };
 
   const Button = ({ onClick, children }) => {
@@ -104,12 +118,12 @@ export default function App() {
   const DropdownButton = () => {
     return (
       <div className="dropdown">
-        <Button onClick={handleTrackingSpeed}>{"Set tracking speed"}</Button>
-        <div className="dropdown-content">
-          <a href="#">Link 1</a>
-          <a href="#">Link 2</a>
-          <a href="#">Link 3</a>
-        </div>
+        <Button onClick={handleTrackingSpeed}>{"Set tracking speed (s)"}</Button>
+        <ul className="dropdown-content">
+          <li onClick={handleDropdownClick} value="15">15</li>
+          <li onClick={handleDropdownClick} value="30">30</li>
+          <li onClick={handleDropdownClick} value="60">60</li>
+        </ul>
       </div>
     );
   };
@@ -123,11 +137,11 @@ export default function App() {
   return (
     <div className="tc container" style={{ display: "block" }}>
       <div id="title-container">
-        {tracking ? (
+        {trackingStatus ? (
           <>
-            <h1> Tracking the ISS! </h1>
-            <br />
-            <br />
+            <h1>Tracking the ISS every {trackingInterval}s!</h1>
+            <br/>
+            <br/>
             <h2>{`Latitude: ${coordinates[0]}, Longitude: ${coordinates[1]}`}</h2>
           </>
         ) : (
@@ -158,7 +172,7 @@ export default function App() {
       </MapContainer>
       <span>
         <Button onClick={handleClick}>
-          {tracking ? "Disable Tracking" : "Enable Tracking"}
+          {trackingStatus ? "Disable Tracking" : "Enable Tracking"}
         </Button>
         <DropdownButton />
       </span>
