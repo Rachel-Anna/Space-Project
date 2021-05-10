@@ -57,28 +57,34 @@ p {
 .dropdown-content {
   display: none;
   position: absolute;
+  list-style-type: none;
   background-color: #f1f1f1;
-  min-width: 160px;
+  min-width: 162px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 5%;
+  margin-left: 1rem;
+  padding: 0;
+  transform: translateY(-1rem);
 }
 
-.dropdown-content a {
+.dropdown-content li {
   color: black;
+  min-width: 100%;
   padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+  cursor: pointer;
 }
 
-.dropdown-content a:hover {
+.dropdown-content li:hover {
   background-color: #ddd;
 }
 
 .dropdown:hover .dropdown-content {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.dropdown:hover .br-pill {
-  background-color: #3e8e41;
+.br-pill:hover {
+  background-color: salmon;
 }
