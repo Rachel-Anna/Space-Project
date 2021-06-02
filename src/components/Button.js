@@ -1,5 +1,3 @@
-import React from "react";
-
 const Button = ({ onClick, onMouseEnter, children, styles }) => {
     let buttonStyles = `f6 no-underline br-pill ph3 pv2 white bg-light-purple ${styles}`;
     return (
