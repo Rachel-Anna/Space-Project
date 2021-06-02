@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 
-  const DropdownButton = ({ data = [], handleDropdownItemClick, setDropdownOpen, dropdownOpen}) => {
+  const DropdownButton = ({ data = [], handleDropdownItemClick, setDropdownOpen, dropdownOpen }) => {
   return (
     <div 
       className="dropdown mr3 mt3 mb3"

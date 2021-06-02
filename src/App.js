@@ -33,7 +33,6 @@ export default function App() {
       .then((data) => {
         let lat = Number(data["iss_position"]["latitude"]);
         let lon = Number(data["iss_position"]["longitude"]);
-        console.log("Moving ISS");
         setCoordinates([lat, lon]);
       });
   };
@@ -67,7 +66,6 @@ export default function App() {
       }
       previousInterval.current = trackingInterval;
       moveISS();
-      console.log(`Setting trackingInterval to: ${trackingInterval}s`);
       interval.current = setInterval(moveISS, parseInt(trackingInterval) * 1000); // setInterval requires ms
     } else {
       clearInterval(interval.current);
@@ -88,7 +86,6 @@ export default function App() {
       initialised.current = true;
     }
     useMapEvent("click", ({ latlng }) => {
-      console.log(`Clicked: ${latlng}`);
       ISSPassTimes(map, latlng);
     });
     return null;
@@ -105,7 +102,6 @@ export default function App() {
 
   const handleDropdownItemClick = (event) => {
     // set the interval in ms
-    console.log(event.target.value);
     setDropdownOpen(false);
     setTrackingInterval(event.target.value);
   };
