@@ -110,12 +110,6 @@ export default function App() {
     setTrackingInterval(event.target.value);
   };
 
-  const handleTrackingSpeed = () => {
-    console.log("clicked");
-
-    return null;
-  };
-
   return (
     <div className="tc container">
       <div id="title-container">
